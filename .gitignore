@@ -1,0 +1,6 @@
+node_modules
+data
+tmp
+
+# Allow .keep files
+!.keep
