@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  outline: 1px solid red;
 }
 
 body {
@@ -23,6 +22,11 @@ main {
     "timeline timeline sidebar";
 }
 
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
 header {
   grid-area: header;
 }
@@ -36,10 +40,24 @@ header {
   height: 100%;
 }
 
+video::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: 1 !important;
+}
+
 .timeline {
   grid-area: timeline;
 }
 
 .sidebar {
   grid-area: sidebar;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
 }
