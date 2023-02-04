@@ -16,6 +16,15 @@ function extractFirstTestRunCompleted(frames) {
   return [new Event('FirstTestRunCompleted', matchedFrame.seconds)];
 }
 
+// This is the meaty bit. It takes a list of frames with their OCR text,
+// attempts to reliably extract test reports, compensate for OCR failures,
+// do a bit of de-noising and de-duplicating, and then returns a list of events.
+
+// If you write your own extract functions, you may be tempted to make the
+// regexes more and more flexible to account for OCR errors. I think this is
+// a bad idea and the route to great suffering. Instead, I would recommend
+// beginning by custom-training the OCR engine for the fonts/kinds of text
+// you need to see — I've tried this out a bit and it does work well.
 function extractTestRunStatusUpdate(frames) {
   let interestingTestFrames = frames.filter(frame => {
     return /Finished in|seconds to load/.test(frame.text)
@@ -56,6 +65,10 @@ function extractTestRunStatusUpdate(frames) {
     return [...acc, result];
   }, []);
   let aboveThreshold = withoutDuplicates.filter(result => {
+    // This threshold is useful. It says "only count this if you see the same
+    // thing in N subsequent frames". This video is quite friendly so it can be
+    // low, but you may need to crank it up. Note that the higher it is, the
+    // more likely you are to miss some events.
     return result.repeats > 1;
   });
   let withoutDuplicatesTwo = aboveThreshold.reduce((acc, result) => {

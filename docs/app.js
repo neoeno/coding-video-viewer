@@ -1,3 +1,6 @@
+// This file is full of mainly gnarly UI code. To see the interesting stuff, go
+// to `extractEvents` and then into `extractors.js`.
+
 async function load() {
   const eventsElement = document.querySelector('[data-events]');
   eventsElement.innerHTML = 'Loading...';
@@ -54,9 +57,7 @@ async function load() {
     if (lastActive === activeEventElem) return;
     lastActive = activeEventElem;
     activeEventElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
   })
-
 }
 
 load().then(() => {
