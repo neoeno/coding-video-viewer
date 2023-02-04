@@ -18,4 +18,13 @@ Clone. Then:
 ; node go.js path/to/video.mp4 path/to/output.json
 ```
 
+That will process videos.
+
+To run a basic server:
+
+```shell
+cd web
+./serve.sh
+```
+
 You can then fiddle with the code in `web/` to wire up the video and output.

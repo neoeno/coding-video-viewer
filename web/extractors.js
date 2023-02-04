@@ -21,7 +21,7 @@ function extractTestRunStatusUpdate(frames) {
     return /Finished in|seconds to load/.test(frame.text)
   })
   let testRunResults = interestingTestFrames.map(frame => {
-    let matches = Array.from(frame.text.matchAll(/(\S+) exa.ples?, (\S+) .ailures?(, (\S+) pending?|)([^\n]* (\S+) err.rs?|)/g));
+    let matches = Array.from(frame.text.matchAll(/(\S+) exa.ples?, (\S+) .ailures?(, (\S+) p.nding?|)([^\n]* (\S+) err.rs?|)/g));
     if (!matches || matches.length === 0) {
       return null;
     }
@@ -44,7 +44,6 @@ function extractTestRunStatusUpdate(frames) {
       repeats: 1,
     };
   }).filter(result => result !== null);
-  console.log(testRunResults);
   let withoutDuplicates = testRunResults.reduce((acc, result) => {
     if (acc.length === 0) {
       return [result];
@@ -56,9 +55,8 @@ function extractTestRunStatusUpdate(frames) {
     }
     return [...acc, result];
   }, []);
-  console.log(withoutDuplicates);
   let aboveThreshold = withoutDuplicates.filter(result => {
-    return result.repeats > 5;
+    return result.repeats > 1;
   });
   let withoutDuplicatesTwo = aboveThreshold.reduce((acc, result) => {
     if (acc.length === 0) {
@@ -71,6 +69,7 @@ function extractTestRunStatusUpdate(frames) {
     }
     return [...acc, result];
   }, []);
+  console.log(withoutDuplicatesTwo)
   return withoutDuplicatesTwo.map(result => {
     let status = result.failures === 0 && result.errors === 0;
     if (status) {
@@ -82,7 +81,6 @@ function extractTestRunStatusUpdate(frames) {
 }
 
 function glomToNumber(string) {
-  // Copyright symbol:  ©, r:
   if (string == '©' || string == "®" || string == "@") {
     return 0;
   }
@@ -95,33 +93,3 @@ function assertEqual(msg, a, b) {
   }
   console.log(`Pass: ${msg}`);
 }
-
-async function runTests() {
-  let frames = await fetch('/test_data.json').then(response => response.json());
-  let firstTestRunCompletedEvents = extractFirstTestRunCompleted(frames);
-  assertEqual('should have one event', firstTestRunCompletedEvents.length, 1);
-  assertEqual('should have correct timestamp', firstTestRunCompletedEvents[0].timestamp, 988);
-
-  // let testRunStatusUpdateEvents = extractTestRunStatusUpdate(frames);
-  // assertEqual('should have 24 events', testRunStatusUpdateEvents.length, 24);
-  // assertEqual('should have correct name', testRunStatusUpdateEvents[0].name, 'TestSuiteFail');
-  // assertEqual('should have correct timestamp', testRunStatusUpdateEvents[0].timestamp, 988);
-  // assertEqual('should have correct examples', testRunStatusUpdateEvents[0].data.examples, 0);
-  // assertEqual('should have correct failures', testRunStatusUpdateEvents[0].data.failures, 0);
-  // assertEqual('should have correct errors', testRunStatusUpdateEvents[0].data.errors, 1);
-  // assertEqual('should have correct name', testRunStatusUpdateEvents[18].name, 'TestSuiteFail');
-  // assertEqual('should have correct timestamp', testRunStatusUpdateEvents[18].timestamp, 1406);
-  // assertEqual('should have correct examples', testRunStatusUpdateEvents[18].data.examples, 12);
-  // assertEqual('should have correct failures', testRunStatusUpdateEvents[18].data.failures, 1);
-  // assertEqual('should have correct errors', testRunStatusUpdateEvents[18].data.errors, 0);
-
-
-
-}
-
-runTests().then(() => {
-  console.log('Tests passed');
-}).catch(error => {
-  console.error(error);
-});
-

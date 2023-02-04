@@ -20,6 +20,7 @@ main {
     "header header header"
     "video video sidebar"
     "timeline timeline sidebar";
+    height: 100vh;
 }
 
 a {
@@ -40,17 +41,14 @@ header {
   height: 100%;
 }
 
-video::-webkit-media-controls-panel {
-  display: flex !important;
-  opacity: 1 !important;
-}
-
 .timeline {
   grid-area: timeline;
 }
 
 .sidebar {
   grid-area: sidebar;
+  max-height: 100vh;
+  overflow:scroll;
 }
 
 .sidebar ul {
@@ -58,6 +56,53 @@ video::-webkit-media-controls-panel {
   padding: 0;
 }
 
-.sidebar ul li {
-  margin-bottom: 10px;
+.evt {
+  display: grid;
+  grid-template-columns: 9em 6em auto;
+  grid-gap: 5px;
+  margin-bottom: 5px;
+  grid-template-areas:
+    "evt-scroller evt-scroller evt-scroller"
+    "evt-title evt-timing evt-data";
+  padding: 10px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  user-select: none;
+}
+
+.evt.evt-past {
+  background-color: #e9ecef;
+}
+
+.evt.evt-current {
+  background-color: #c2ddf9;
+}
+
+.evt-scroller {
+  grid-area: evt-scroller;
+}
+
+.evt-scroller-inner {
+  height: 2px;
+  background: red;
+  width: 0%;
+  margin-top: -10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.evt-timing {
+  grid-area: evt-timing;
+  font-size: 12px;
+}
+
+.evt-title {
+  grid-area: evt-title;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.evt-extra {
+  grid-area: evt-data;
+  font-size: 12px;
 }

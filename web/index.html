@@ -9,16 +9,23 @@
   </head>
   <body>
     <main>
-      <header><h1>Coding Video Viewer</h1></header>
+      <header>
+        <h1>Coding Video Viewer (<a href="https://www.herostrat.us/">Kay Lack</a>)</h1>
+        <p>
+          This is a proof of concept for labelling events in a screen recording
+          of someone coding using machine learning. This video is an extract
+          from a teaching video, so it's a bit more friendly than a typical
+          screen recording. However, note that all of the labels were extracted
+          using OCR — no manual labelling was done. Click play to start. You can
+          also click the labels on the right to skip to that moment. Feel free
+          to unmute the video too.
+        </p>
+      </header>
       <div class="video">
-        <video id="video" src="data/real-3.mp4" controls></video>
+        <video id="video" src="data/snippet.mp4" controls muted></video>
       </div>
       <div class="sidebar">
-        <h2>Events</h2>
         <ul data-events></ul>
-      </div>
-      <div class="timeline">
-        <!-- Yo -->
       </div>
     </main>
   </body>

@@ -1,6 +1,7 @@
 node_modules
-data
+/data
 tmp
+.DS_Store
 
 # Allow .keep files
 !.keep
