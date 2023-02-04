@@ -23,8 +23,8 @@ That will process videos.
 To run a basic server:
 
 ```shell
-cd web
+cd docs
 ./serve.sh
 ```
 
-You can then fiddle with the code in `web/` to wire up the video and output.
+You can then fiddle with the code in `docs/` to wire up the video and output.
