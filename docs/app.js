@@ -2,7 +2,7 @@ async function load() {
   const eventsElement = document.querySelector('[data-events]');
   eventsElement.innerHTML = 'Loading...';
 
-  const data = await fetch('/data/snippet.json').then(response => response.json());
+  const data = await fetch('data/snippet.json').then(response => response.json());
   const events = extractEvents(data);
 
   eventsElement.innerHTML = events.map((evt, idx) => {
